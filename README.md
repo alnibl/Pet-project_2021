@@ -192,6 +192,8 @@ ImageDataGenerator берет картинки авто и фона с colab (и
 
 Для преобразования фона я применил библиотеку Аlbumentations [(https://albumentations.ai/)](https://albumentations.ai/) благодаря которой на фото налаживал эффекты дождя, солнца, тумана, тени, изменял значение RGB картинок, применял размытие к изображениям, применял RandomCrop и Resize.
 
+![](/images/loss.png)
+
 ### [Пример работы нейронной сети. Видео.](https://youtu.be/BDtDp4iygtQ)
 
 ### [Весь код нейронной сети можно помотреть тут.](https://github.com/alnibl/Portfolio/blob/main/Копия_блокнота_"GAN_7_ipynb".ipynb)
