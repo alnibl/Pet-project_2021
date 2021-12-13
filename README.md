@@ -178,7 +178,8 @@ def build_generator():
 ### Общая функция нейронной сети:
 
 def train(generator, discriminator, gan, vgg, epochs, batch_size):
-
+'''
+'''
   curTime = time.time() # засекаю время  
 
   # загружаю листы с ошибками
