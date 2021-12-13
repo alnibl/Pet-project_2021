@@ -198,8 +198,7 @@ ImageDataGenerator берет картинки авто и фона с colab (и
 ### Пример работы.
 ![](/images/pred_1.png)
 ![](/images/pred_3.png)
-![](/images/pred_5.png)
-![](/images/pred_6.png)
+![](/images/pred_5.png)![](/images/pred_6.png)
 
 ### [Пример работы нейронной сети. Видео.](https://youtu.be/BDtDp4iygtQ)
 
