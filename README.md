@@ -146,8 +146,6 @@ def build_generator():
 
     output = Conv2D(3, kernel_size=4, strides=1, padding='same', activation='tanh', name='Gen_output')(output_img_cont) #интенсивность должна быть от -1 до 1, поэтому используем tanh
 
-
-
     return Model(e0, output, name="Generator")
 
 ### Дискриминатор.
