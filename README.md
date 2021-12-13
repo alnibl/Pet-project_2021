@@ -179,6 +179,103 @@ X_train для НС это будут фото авто на фоне, а Y_trai
 
 3) ошибки генератора между Y_train и X_pred
 
+### Общая функция работы нейронной сети:
+
+    batch_size =8
+
+    def train(generator, discriminator, gan, vgg, epochs, batch_size):
+
+      curTime = time.time() # засекаю время  
+
+      # загружаю листы с ошибками
+      g_loss_list0 = list(np.load('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list0.npy')) # Массив значений ошибки генератора
+      g_loss_list1 = list(np.load('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list1.npy')) # Массив значений ошибки генератора
+      g_loss_list2 = list(np.load('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list2.npy')) # Массив значений ошибки генератора
+      g_loss_list3 = list(np.load('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list3.npy')) # Массив значений ошибки генератора
+      d_loss_list = list(np.load('/content/drive/MyDrive/Модели/Ход обучения/d_loss_list.npy'))   # Массив значений ошибки дескриминатора
+      #d_acc_list = list(np.load('/content/drive/MyDrive/Модели/Ход обучения/d_acc_list.npy'))    # Массив значений точности дескриминатора
+
+      for epoch in range(epochs): 
+
+        with tqdm(total=ln) as pbar: #для отслеживания создаем progressbar
+          for batch in range(ln//batch_size):
+
+            #для тренировки дискриминатора применяем label smoothing (для борьбы с переобучением)
+            #размерность Y: (размер батча, высота последнего слоя дискриминатора, ширина, 1)
+            y_real = np.ones((batch_size, *discriminator.output_shape[1:])) - np.random.random_sample((batch_size, *discriminator.output_shape[1:]))*0.2 # значения от 0.8 до 1
+            y_fake = np.random.random_sample((batch_size, *discriminator.output_shape[1:]))*0.2 # значения от 0 до 0.2
+
+            x_tr, y_tr = image_paste_x_train() # функция формирования x_train и y_train по батчам. Получаю numpy изображения размером batch_size.
+
+            cars = (x_tr/127.5)-1               # изображения с машиной нормализую
+            image_reference = (y_tr/127.5)-1    # изображения без машины нормализую
+
+            fake_imgs = generator.predict(cars) # удаляем машину генератором
+
+            #тренируем дискриминатор       
+            d_loss_real = discriminator.train_on_batch([image_reference, image_reference], y_real) # дискрминатор обучаю на реальных изображениях (чистый фон)
+            d_loss_fake = discriminator.train_on_batch([fake_imgs,image_reference], y_fake) # дискриминатор обучаю на фэйковых изображениях (изображение после генератра)
+            d_loss_total = 0.5*np.add(d_loss_real, d_loss_fake) # ошибка дискриминатора
+
+            #тренируем генератор
+            real_features = vgg.predict(image_reference) # с помощью vgg19 получаю фичи от изображенияй чистого фона 
+            y_real = np.ones((batch_size, *discriminator.output_shape[1:])) # y_true для дискриминатора в общей модели gan
+
+            g_loss = gan.train_on_batch([cars, image_reference], [y_real, image_reference, real_features]) # обучаю gan
+
+            g_loss_list0.append(g_loss[0]) # Добавляем в массив значений ошибок генератора g_loss
+            g_loss_list1.append(g_loss[1]) # Добавляем в массив значений ошибок генератора g_loss
+            g_loss_list2.append(g_loss[2]) # Добавляем в массив значений ошибок генератора g_loss
+            g_loss_list3.append(g_loss[3]) # Добавляем в массив значений ошибок генератора g_loss
+            d_loss_list.append(d_loss_total[0]) # Добавляем в массив значений ошибок дискриминатора
+            #d_acc_list.append(d_loss_total[1]) # Добавляем в массив значений точности дискриминатора
+            pbar.update(batch_size) #обновляем progressbar
+            pbar.set_description("Epoch: {}/{}, Acc: {} %, Dis loss: {}, Gen loss:{}".format(epoch+1, epochs, 100*d_loss_total[1], d_loss_total[0], g_loss))
+
+        # каждые 3 эпохи вывожу результат
+        if ((epoch % 3 == 0) | (epoch == epochs-1)):
+          imege_pred(generator, epoch, 2, x_tr, y_tr) # отображаю результат, 2 строки
+
+          plt.figure(figsize=(20,20))
+          plt.subplot(3, 2, 1)
+          plt.plot(g_loss_list0, label="Ошибка 0")
+          plt.legend()
+          plt.subplot(3, 2, 2)
+          plt.plot(g_loss_list1, label="Ошибка 1")
+          plt.legend()
+          plt.subplot(3, 2, 3)
+          plt.plot(g_loss_list2, label="Ошибка 2")
+          plt.legend()
+          plt.subplot(3, 2, 4)
+          plt.plot(g_loss_list3, label="Ошибка 3")
+          plt.legend()
+          plt.subplot(3, 2, 5)
+          plt.plot(d_loss_list, label="Ошибка дискриминатора")
+          plt.legend()
+          #plt.subplot(3, 2, 6)
+          #plt.plot(d_acc_list, label="Точность дискриминатора")
+          #plt.legend()
+          plt.savefig('/content/drive/MyDrive/Модели/Ход обучения/Графики ошибок_lr_1e-5_LW_1_200_100.png', dpi = 100) # сохраняю графики
+          plt.show()
+          plt.close() # Завершаем работу с plt
+
+
+        # Сохраняю модель генератора, дискриминатора и весь gan
+        gen.save('/content/drive/MyDrive/Модели/Gen_7_256_384.h5')
+        dis.save('/content/drive/MyDrive/Модели/Dis_7_256_384.h5')
+        #gan.save('/content/drive/MyDrive/Модели/GAN_7_256_384.h5')
+
+        # Сохраняю историю ошибок
+        np.save('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list0', np.array(g_loss_list0))
+        np.save('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list1', np.array(g_loss_list1))
+        np.save('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list2', np.array(g_loss_list2))
+        np.save('/content/drive/MyDrive/Модели/Ход обучения/g_loss_list3', np.array(g_loss_list3))
+        np.save('/content/drive/MyDrive/Модели/Ход обучения/d_loss_list', np.array(d_loss_list))
+        #np.save('/content/drive/MyDrive/Модели/Ход обучения/d_acc_list', np.array(d_acc_list))
+
+        print('GAN осохранена на {} эпохе. Время от старта: {} мин. {} сек.'.format(epoch, round(((time.time() - curTime)// 60)), round((time.time() - curTime) % 60)))
+      print('Время работы: {} мин. {} сек.'.format(round(((time.time() - curTime)// 60)), round((time.time() - curTime) % 60)))
+
 
 ### Проблемму нехватки ОЗУ в colab я решил.
 Написал функцию image_paste_x_train(), которая формирует X_train прямо во время обучения нейронной сети.
