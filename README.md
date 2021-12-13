@@ -175,7 +175,7 @@ def build_gan(discriminator, generator, vgg):
   image_reference = Input(img_shape, name='Image_reference')  #вход изображения без машины
   fake_img = generator(cars)                                  #изображение, полученное от генератора
 
-  fake_features = vgg(fake_img)                               #карты активации, полученные от фейкового изображения
+  fake_features = vgg(fake_img)                               #карты активации, полученные от фейкового изображения###############################################################
 
   fake_validity = discriminator([fake_img, image_reference])  #соединяем генератор и дискриминатор
 
