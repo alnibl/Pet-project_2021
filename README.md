@@ -166,8 +166,6 @@ X_train для НС это будут фото авто на фоне, а Y_trai
 
 Функция объединяющая генератор, дискриминатор и VGG19:
 
-![](/images/gan.png)
-
     def build_gan(discriminator, generator, vgg):
       discriminator.trainable = False                             #замораживаем дискриминатор
 
