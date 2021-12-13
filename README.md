@@ -46,7 +46,7 @@ X_train для НС это будут фото авто на фоне, а Y_trai
 
 ### [Пример кода тут.](https://github.com/alnibl/Portfolio/blob/main/"Эксперементы_с_GAN_lodki_ipynb"".ipynb)
 
-## 4. Исследование нейронной сети.
+## [4. Исследование нейронной сети.](https://github.com/alnibl/Portfolio/blob/main/Копия_блокнота_"GAN_7_ipynb".ipynb)
 ![](/images/4.png)
 
 ### Генератор.
