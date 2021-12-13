@@ -166,20 +166,7 @@ X_train для НС это будут фото авто на фоне, а Y_trai
 
 Функция объединяющая генератор, дискриминатор и VGG19:
 
-    def build_gan(discriminator, generator, vgg):
-      discriminator.trainable = False                             #замораживаем дискриминатор
-
-      cars = Input(img_shape, name='Cars')                        #вход изображения с машиной
-      image_reference = Input(img_shape, name='Image_reference')  #вход изображения без машины
-      fake_img = generator(cars)                                  #изображение, полученное от генератора
-
-      fake_features = vgg(fake_img)                               #карты активации, полученные от фейкового изображения
-
-      fake_validity = discriminator([fake_img, image_reference])  #соединяем генератор и дискриминатор
-
-      gan = Model([cars, image_reference], [fake_validity, fake_img, fake_features]) 
-
-      return gan
+![](/images/gan.png)
 
 ### Общая ошибка сети строится из:
 1) ошибки дискриминатора, который оценивает качество сгенерированного генератором изображения
