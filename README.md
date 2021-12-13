@@ -50,7 +50,8 @@ X_train для НС это будут фото авто на фоне, а Y_trai
 ## [4. Исследование нейронной сети.](https://github.com/alnibl/Portfolio/blob/main/Копия_блокнота_"GAN_7_ipynb".ipynb)
 ![](/images/4.png)
 
-### При создании НС были использованы такие слои как Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, Concatenate,Conv2DTranspose, Dropout. Функции активации LeakyReLU, relu, sigmoid, thanh. Функции ошибки binary_crossentropy, mse.
+### При создании НС были использованы такие слои как Conv2D, BatchNormalization, MaxPooling2D, UpSampling2D, Concatenate,Conv2DTranspose, Dropout: функции активации - LeakyReLU, relu, sigmoid, thanh; функции ошибки - binary_crossentropy, mse.
+
 
 ### Генератор.
 За основу взята сеть U-Net, но с изменениями и дополениями.
