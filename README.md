@@ -15,7 +15,9 @@
 ![](/images/130.jpg)
 - взяты фреймы из видео YouTube – 406 шт.
 ![](/images/0_38.jpg)
-- фото из баз в интернете(частично использованы базы DeepLoc, DeepLocCross, Freiburg Street Crossing, FRIDA ) - 702 шт. ![](/images/Image_79.png)
+- фото из баз в интернете(частично использованы базы DeepLoc, DeepLocCross, Freiburg Street Crossing, FRIDA ) - 702 шт.
+
+![](/images/Image_79.png)
 
 ### Автомобили.
 Общее количество фото - 2360 штук.
