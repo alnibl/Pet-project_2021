@@ -326,9 +326,9 @@ ImageDataGenerator берет картинки авто и фона из google 
 
 
 
-### При работе над кодом использовались такие библиотеки как:
+При работе над кодом использовались такие библиотеки как:
 
-Keras, Tensorflow, PyThorch, PIL, Numpy, Albumentations, cv2, Matplotlib.
+### Keras, Tensorflow, PyThorch, PIL, Numpy, Albumentations, cv2, Matplotlib.
 
 ### [Весь код нейронной сети можно помотреть тут.](https://github.com/alnibl/Portfolio/blob/main/Копия_блокнота_"GAN_7_ipynb".ipynb)
 
