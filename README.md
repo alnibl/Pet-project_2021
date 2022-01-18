@@ -335,6 +335,7 @@ ImageDataGenerator берет картинки авто и фона из google 
 - Арендовать мощную видеокарту и обучить НС.
 
 
+### Общее время обучения нейронной сети - 4,6 дня, видеокарта - Tesla T4.
 
 ### При работе над кодом использовались такие библиотеки как:
 ### Keras, Tensorflow, PyTorch, PIL, Numpy, Albumentations, CV2, Matplotlib.
