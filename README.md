@@ -304,7 +304,7 @@ ImageDataGenerator берет картинки авто и фона из google 
 ![](/images/pred_3.png)
 ![](/images/pred_55.jpg)![](/images/pred_66.jpg)
 
-### [Пример работы нейронной сети. Видео тут.](https://youtu.be/BDtDp4iygtQ)
+### [Пример работы нейронной сети на ВИДЕО тут.](https://youtu.be/BDtDp4iygtQ)
 
 ### Какие выводы после всей работы и что можно сделать лучше?
 
