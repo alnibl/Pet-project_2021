@@ -276,7 +276,7 @@ X_train для НС это будут фото авто на фоне, а Y_trai
         print('GAN осохранена на {} эпохе. Время от старта: {} мин. {} сек.'.format(epoch, round(((time.time() - curTime)// 60)), round((time.time() - curTime) % 60)))
       print('Время работы: {} мин. {} сек.'.format(round(((time.time() - curTime)// 60)), round((time.time() - curTime) % 60)))
 
-### Значения Loss, loss_weights, optimizer при компиляции модели представлены ниже.
+### Optimizer - Adam. Loss - binary_crossentropy и mse. Параметры loss_weights, learning_rate менял в процессе обучения.
     gen = build_generator() #создаем генератор
 
     dis = build_discriminator() #создаем дискриминатор
@@ -285,7 +285,7 @@ X_train для НС это будут фото авто на фоне, а Y_trai
     vgg = build_vgg() #создаем vgg модель
 
     gan = build_gan(dis, gen, vgg) #создаем gan
-    gan.compile(loss=['binary_crossentropy', 'mse', 'mse'], loss_weights=[1,200,100], optimizer=Adam(learning_rate=1e-4, beta_1=0.5)) #вклад разницы между пикселями в 10 раз         больше, чем вклад от feature loss и в 100 раз больше, чем вклад от GAN
+    gan.compile(loss=['binary_crossentropy', 'mse', 'mse'], loss_weights=[1,200,100], optimizer=Adam(learning_rate=1e-4, beta_1=0.5)) #вклад разницы между пикселями в 200 раз         больше и в feature loss в 100 раз больше, чем вклад от GAN.
 
 ### Проблемму нехватки ОЗУ в colab я решил.
 Написал функцию image_paste_x_train(), которая формирует X_train прямо во время обучения нейронной сети.
